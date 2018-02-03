@@ -4,7 +4,7 @@ const createCsvWriter = require('csv-writer').createObjectCsvWriter
 
 //generates fake users for the users database
 async function fakeUserGenerator (number) {
-	for (var i = 0; i < 1; i++) {
+	for (var i = 0; i < 20; i++) {
 		let fileName = 'users' + i;
 		let id = i * 500000 + 1;
 		const csvWriter = createCsvWriter({
@@ -24,8 +24,7 @@ async function fakeUserGenerator (number) {
 			const password = faker.internet.password();
 			const lat = faker.address.latitude();
 			const lng = faker.address.longitude();
-			const geolocation = `{lat:${lat}, lng:${lng}}`;
-
+			const geolocation = JSON.stringify({lat: lat, lng: lng});
 			const user = {id, email, password, geolocation};
 			records[j] = user;
 			id++;
@@ -47,9 +46,9 @@ async function fakeSessionsGenerator (number) {
 	const categories = ['Action & Adventure', 'Comedies', 'Thrillers', 'Violent TV Shows', 'Animation', 'Documentaries', 'Reality TV', 'Critically-acclaimed', 'Horror', 'TV Comedies', 'Sci-fi', 'Dramas'];
 	const trueContent = [false, true];
 
-	for (var i = 0; i < 1; i++) {
+	for (var i = 8; i < 10; i++) {
 		let fileName = 'user_sessions' + i;
-		let id = i * 500000 + 1;
+		let id = i * 1000000 + 1;
 		const csvWriter = createCsvWriter({
 			path: path.join(__dirname, `/databases/data/user_sessions/${fileName}.csv`),
 			header: [
@@ -75,15 +74,21 @@ async function fakeSessionsGenerator (number) {
 			const lat = faker.address.latitude();
 			const lng = faker.address.longitude();
 			const geolocation = `{lat:${lat}, lng:${lng}}`;
-			const year = Math.ceil(Math.random() * 17) + 2000;
-			const month = Math.ceil(Math.random() * 12);
+			let year = Math.ceil(Math.random() * 17) + 2000;
+			let month = Math.ceil(Math.random() * 12);
 			let day;
 			if (month === 2) { 
 				day = Math.ceil(Math.random() * 28);
 			} else {
 				day = Math.ceil(Math.random() * 31);
 			}
-			const date = `${month}/${day}/${year}`;
+			if (month < 10) {
+				month = '0' + month;
+			}
+			if (day < 10) {
+				day = '0' + day;
+			}
+			const date = `${year}-${month}-${day}`;
 			const session = {id, userId, contentId, category, originalContent, viewedMinutes, geolocation, date};
 
 			records[j] = session;
@@ -97,13 +102,14 @@ async function fakeSessionsGenerator (number) {
 	}
 }
 
+//Commented out fake data generators until they need to be used again. IF they need to be.
 try {
 	fakeUserGenerator(500000)
 		.then(() => {
 			console.log('Users generated');
 		});
 
-	fakeSessionsGenerator(500000)
+	fakeSessionsGenerator(1000000)
 		.then(() => {
 			console.log('Sessions generated');
 		});
