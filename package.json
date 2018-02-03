@@ -1,0 +1,21 @@
+{
+  "name": "capflix",
+  "version": "1.0.0",
+  "description": "The catalog service",
+  "main": ".eslintrc.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stonecapdesign/Capflix.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stonecapdesign/Capflix/issues"
+  },
+  "homepage": "https://github.com/stonecapdesign/Capflix#readme",
+  "dependencies": {
+    "csv-writer": "0.0.3",
+    "faker": "^4.1.0"
+  }
+}
