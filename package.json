@@ -1,0 +1,38 @@
+{
+  "name": "capflix",
+  "version": "1.0.0",
+  "description": "The project description",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "server-dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peteyluu/capflix.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/peteyluu/capflix/issues"
+  },
+  "homepage": "https://github.com/peteyluu/capflix#readme",
+  "devDependencies": {
+    "csv-writer": "0.0.3",
+    "elapsed-time": "0.0.1",
+    "eslint": "^4.16.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.6.1",
+    "faker": "^4.1.0",
+    "nodemon": "^1.14.11"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "elasticsearch": "^14.0.0",
+    "express": "^4.16.2",
+    "redis": "^2.8.0"
+  }
+}
