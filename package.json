@@ -9,8 +9,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.2",
+    "cassandra-driver": "^3.3.0",
+    "csv-writer": "0.0.3",
+    "elapsed-time": "0.0.1",
     "express": "^4.16.2",
-    "faker": "^4.1.0"
+    "faker": "^4.1.0",
+    "uuid": "^3.2.1"
   },
   "devDependencies": {},
   "scripts": {
