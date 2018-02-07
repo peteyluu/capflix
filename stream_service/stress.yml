@@ -1,0 +1,28 @@
+config:
+  target: 'http://127.0.0.1:3000'
+  phases:
+    - duration: 60
+      arrivalRate: 10
+      rampTo: 50
+      name: "Warm up the application"
+    - duration: 120
+      arrivalRate: 10
+      name: "Sustained max load"
+scenarios:
+  - name: "Get Chunk Number 4"
+    flow:
+    - get:
+        url: "/chunk/somecontent?res=720&chunkNumber=4"
+
+  - name: "Get Chunk Number 5"
+    flow:
+    - get:
+        url: "/chunk/somecontent?res=720&chunkNumber=5"
+
+  - name: "Start Sessions"
+    flow:
+    - post:
+        url: "/startsession"
+        json: 
+          content_id: "1337"
+          user_id: "2410"
