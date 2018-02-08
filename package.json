@@ -16,6 +16,7 @@
     "express": "^4.16.2",
     "faker": "^4.1.0",
     "newrelic": "^2.7.0",
+    "siege": "^0.2.0",
     "uuid": "^3.2.1"
   },
   "devDependencies": {},

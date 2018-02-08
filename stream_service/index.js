@@ -25,7 +25,7 @@ app.get('/chunk/:contentId', (req, res) => {
 
 app.post('/startsession', (req, res) => {
   let uuid = uuidv1();
-  client.execute(`INSERT INTO capflix_test.sessions (id, content_id, user_id, started, ended, runtime) VALUES (${uuid}, ${req.body.content_id}, ${req.body.user_id}, dateof(now()), null, null);`, function(err, result) {
+  client.execute(`INSERT INTO capflix_test.server_sessions (id, content_id, user_id, started, ended, runtime) VALUES (${uuid}, ${req.body.content_id}, ${req.body.user_id}, dateof(now()), null, null);`, function(err, result) {
     if (err) {
       res.status(404).send({ msg : err });
     } else {
@@ -36,7 +36,7 @@ app.post('/startsession', (req, res) => {
 });
 
 app.patch('/endsession', (req, res) => {
-  client.execute(`UPDATE capflix_test.sessions SET ended = dateof(now()), runtime = ${req.body.runtime} WHERE id = ${req.body.session_id};`, (err, result) => {
+  client.execute(`UPDATE capflix_test.server_sessions SET ended = dateof(now()), runtime = ${req.body.runtime} WHERE id = ${req.body.session_id};`, (err, result) => {
     if (err) {
       res.status(404).send({ msg: err });
     } else {

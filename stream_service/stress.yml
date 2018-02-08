@@ -6,7 +6,7 @@ config:
       rampTo: 50
       name: "Warm up the application"
     - duration: 120
-      arrivalRate: 10
+      arrivalRate: 30
       name: "Sustained max load"
 scenarios:
   - name: "Get Chunk Number 4"
