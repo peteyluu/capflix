@@ -1,14 +1,21 @@
 const express = require('express');
 const db = require('../database/elasticsearch');
+const redis = require('../database/redis');
 
 const router = express.Router();
 
 // http://...:PORT/search/query
-router.get('/search/:query', (req, res) => {
+router.get('/search/:query', async (req, res) => {
   try {
-    db.searchSummary(req.params.query).then((data) => {
-      res.status(200).json(data);
-    });
+    let data;
+    if (await redis.existAsync(req.params.query)) {
+      data = await redis.getAsync(req.params.query);
+    } else {
+      data = await db.searchSummary(req.params.query);
+      await redis.setAsync(req.params.query, JSON.stringify(data));
+    }
+    redis.expireAsync(req.params.query, 600);
+    res.status(200).json(data);
   } catch (err) {
     res.status(400).json(err);
   }
@@ -16,12 +23,19 @@ router.get('/search/:query', (req, res) => {
 
 // http://localhost:3000/categories?cats=["action","anime"]
 // defaults to ["action","anime"] if no query is provided
-router.get('/categories', (req, res) => {
+router.get('/categories', async (req, res) => {
   try {
     const categories = req.query.cats ? JSON.parse(req.query.cats) : ['action', 'anime'];
-    db.fetchCategories(categories).then((data) => {
-      res.status(200).json(data);
-    });
+    const categoriesKey = categories.join('');
+    let data;
+    if (await redis.existAsync(categoriesKey)) {
+      data = await redis.getAsync(categoriesKey);
+    } else {
+      data = await db.fetchCategories(categories);
+      await redis.setAsync(categoriesKey, JSON.stringify(data));
+    }
+    redis.expireAsync(categoriesKey, 600);
+    res.status(200).json(data);
   } catch (err) {
     res.status(400).json(err);
   }
@@ -29,11 +43,17 @@ router.get('/categories', (req, res) => {
 
 // gets content movie details (current: movie summary)
 // TODO: sends request to catalogue service
-router.get('/content/:id', (req, res) => {
+router.get('/content/:id', async (req, res) => {
   try {
-    db.getSummaryById(req.params.id).then((data) => {
-      res.status(200).json(data);
-    });
+    let data;
+    if (await redis.existAsync(req.params.id)) {
+      data = await redis.getAsync(req.params.id);
+    } else {
+      data = await db.getSummaryById(req.params.id);
+      await redis.setAsync(req.params.id, JSON.stringify(data));
+    }
+    redis.expireAsync(req.params.id, 600);
+    res.status(200).json(data);
   } catch (err) {
     res.status(400).json(err);
   }
@@ -41,16 +61,15 @@ router.get('/content/:id', (req, res) => {
 
 // adds one or more documents to summary/movie
 // TODO: refactor line 45-49 to a middleware???
-router.post('/summary/movie', (req, res) => {
+router.post('/summary/movie', async (req, res) => {
   const body = [];
   req.body.forEach((doc) => {
     body.push({ index: { _index: 'summary', _type: 'movie', _id: doc.content_id } });
     body.push(doc);
   });
   try {
-    db.bulkDocuments(body).then((data) => {
-      res.status(201).json(data);
-    });
+    const data = await db.bulkDocuments(body);
+    res.status(201).json(data);
   } catch (err) {
     res.status(400).json(err);
   }
@@ -58,15 +77,14 @@ router.post('/summary/movie', (req, res) => {
 
 // delete one or more documents from summary/movie
 // TODO: refactor line 45-49 to a middleware???
-router.delete('/summary/movie', (req, res) => {
+router.delete('/summary/movie', async (req, res) => {
   const body = [];
   req.body.forEach((doc) => {
     body.push({ delete: { _index: 'summary', _type: 'movie', _id: doc.content_id } });
   });
   try {
-    db.bulkDocuments(body).then((data) => {
-      res.status(202).json(data);
-    });
+    const data = await db.bulkDocuments(body);
+    res.status(202).json(data);
   } catch (err) {
     res.status(400).json(err);
   }

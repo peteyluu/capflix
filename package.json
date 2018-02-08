@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/peteyluu/capflix#readme",
   "devDependencies": {
+    "artillery": "^1.6.0-12",
     "csv-writer": "0.0.3",
     "elapsed-time": "0.0.1",
     "eslint": "^4.16.0",
@@ -27,12 +28,14 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.6.1",
     "faker": "^4.1.0",
-    "nodemon": "^1.14.11"
+    "nodemon": "^1.14.11",
+    "siege": "^0.2.0"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
     "elasticsearch": "^14.0.0",
     "express": "^4.16.2",
+    "newrelic": "^2.7.0",
     "redis": "^2.8.0"
   }
 }

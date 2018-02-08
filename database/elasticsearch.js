@@ -1,22 +1,10 @@
 const elasticsearch = require('elasticsearch');
 
-// create a client instance
 const client = new elasticsearch.Client({
   host: 'localhost:9200',
   log: 'trace',
 });
 
-// send a HEAD request to `/` and allow up to 1 second for it to complete
-// const ping = client.ping({
-//   // ping usually has a 3000ms timeout
-//   requestTimeout: 1000,
-// }, (err) => {
-//   if (err) {
-//     console.trace('elasticsearch cluster is down!');
-//   } else {
-//     console.log('All is well');
-//   }
-// });
 
 // create index
 // const createIndex = indexName => client.indices.create({ index: indexName });
@@ -88,15 +76,20 @@ const client = new elasticsearch.Client({
 //     });
 //   });
 
+/*
+  Inside a function marked as `async`, you are allowed to place the `await` keyword in front of an expression that returns a promise.
+  When you do, the execution of the `async` function is paused until the promise is resolved
+*/
+
 // get documents from summary index based on query
-const searchSummary = async query =>
+const searchSummary = query =>
   client.search({
     index: 'summary',
     q: query,
   });
 
 // get documents from summary index on [categories]
-const fetchCategories = async categories =>
+const fetchCategories = categories =>
   client.search({
     index: 'summary',
     body: {
@@ -109,7 +102,7 @@ const fetchCategories = async categories =>
   });
 
 // get document from summary index on id
-const getSummaryById = async summaryId =>
+const getSummaryById = summaryId =>
   client.get({
     index: 'summary',
     type: 'movie',
@@ -117,7 +110,7 @@ const getSummaryById = async summaryId =>
   });
 
 // add/update/delete to /summary/movie
-const bulkDocuments = async docs =>
+const bulkDocuments = docs =>
   client.bulk({
     body: docs,
   });
