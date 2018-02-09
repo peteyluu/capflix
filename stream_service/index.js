@@ -30,7 +30,7 @@ app.post('/startsession', (req, res) => {
       res.status(404).send({ msg : err });
     } else {
       res.set('session_id', uuid);
-      res.status(200).sendFile(path.join(__dirname, `./file_storage/rootmanifest.m3u8`));
+      res.status(201).sendFile(path.join(__dirname, `./file_storage/rootmanifest.m3u8`));
     }
   });
 });
@@ -46,4 +46,8 @@ app.patch('/endsession', (req, res) => {
   });
 });
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'));
+if (!module.parent) { 
+  app.listen(3000, () => console.log('Example app listening on port 3000!'));
+}
+
+module.exports = app;
