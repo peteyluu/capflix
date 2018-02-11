@@ -3,19 +3,19 @@ const { promisify } = require('util');
 
 const client = redis.createClient();
 
-client.on('ready', () => {
-  console.log('Redis is ready');
-});
+// client.on('ready', () => {
+//   console.log('Redis is ready');
+// });
 
-client.on('error', (err) => {
-  console.log(`Error ${err}`);
-});
-
+// client.on('error', (err) => {
+//   console.log(`Error ${err}`);
+// });
 const getAsync = promisify(client.get).bind(client);
 const setAsync = promisify(client.set).bind(client);
 const existAsync = promisify(client.exists).bind(client);
 const expireAsync = promisify(client.expire).bind(client);
 const delAsync = promisify(client.del).bind(client);
+const flushDbAsync = promisify(client.flushdb).bind(client);
 
 // setAsync('key1', 'value1')
 //   .then((reply) => {
@@ -63,9 +63,11 @@ const delAsync = promisify(client.del).bind(client);
 // });
 
 module.exports = {
+  client,
   getAsync,
   setAsync,
   existAsync,
   expireAsync,
   delAsync,
+  flushDbAsync,
 };

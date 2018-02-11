@@ -1,10 +1,10 @@
 const elasticsearch = require('elasticsearch');
 
 const client = new elasticsearch.Client({
-  host: 'localhost:9200',
-  log: 'trace',
+  host: process.env.HOST || 'localhost:9200',
+  // host: 'http://192.168.99.100:9200',
+  // log: 'trace',
 });
-
 
 // create index
 // const createIndex = indexName => client.indices.create({ index: indexName });
@@ -84,14 +84,14 @@ const client = new elasticsearch.Client({
 // get documents from summary index based on query
 const searchSummary = query =>
   client.search({
-    index: 'summary',
+    index: process.env.INDEX || 'summary',
     q: query,
   });
 
 // get documents from summary index on [categories]
 const fetchCategories = categories =>
   client.search({
-    index: 'summary',
+    index: process.env.INDEX || 'summary',
     body: {
       query: {
         terms: {
@@ -104,8 +104,8 @@ const fetchCategories = categories =>
 // get document from summary index on id
 const getSummaryById = summaryId =>
   client.get({
-    index: 'summary',
-    type: 'movie',
+    index: process.env.INDEX || 'summary',
+    type: process.env.TYPE || 'movie',
     id: summaryId,
   });
 
@@ -160,6 +160,7 @@ module.exports = {
   // indexExists,
   // addDocumentSummaryMovie,
   // addDocumentSummaryTvshow,
+  client,
   searchSummary,
   fetchCategories,
   getSummaryById,

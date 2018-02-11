@@ -10,10 +10,10 @@ config:
     # a ramp up phase where we go from 5 to 50 new virtual user arrivals over 120 secs.
     - duration: 120
       arrivalRate: 5
-      rampTo: 20
+      rampTo: 50
     # the final high load phase with the arrival rate of 50 that lasts for 600 secs.
-    # - duration: 600
-    #   arrivalRate: 50
+    - duration: 600
+      arrivalRate: 50
   defaults:
     headers:
       # x-my-service-auth: '987401838271002188298567'

@@ -4,7 +4,8 @@
   "description": "The project description",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "INDEX='test' TYPE='movie' mocha ./test/elasticsearch.js && mocha ./test/redis.js",
+    "test1": "",
     "start": "node index.js",
     "server-dev": "nodemon index.js"
   },
@@ -20,6 +21,8 @@
   "homepage": "https://github.com/peteyluu/capflix#readme",
   "devDependencies": {
     "artillery": "^1.6.0-12",
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
     "csv-writer": "0.0.3",
     "elapsed-time": "0.0.1",
     "eslint": "^4.16.0",
@@ -28,13 +31,16 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.6.1",
     "faker": "^4.1.0",
+    "mocha": "^5.0.0",
     "nodemon": "^1.14.11",
-    "siege": "^0.2.0"
+    "siege": "^0.2.0",
+    "supertest": "^3.0.0"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
     "elasticsearch": "^14.0.0",
     "express": "^4.16.2",
+    "express-cluster": "0.0.5",
     "newrelic": "^2.7.0",
     "redis": "^2.8.0"
   }
