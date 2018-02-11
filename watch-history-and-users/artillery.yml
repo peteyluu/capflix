@@ -1,0 +1,15 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 1
+      arrivalRate: 1
+scenarios:
+  - name: "User logins"
+    flow:
+      - loop:
+        - get:
+            url: "/login"
+            json:
+              email: "Anika_Beahan@hotmail.com8000013"
+              password: "UFft6aZS2OdAK78"
+        count: 1

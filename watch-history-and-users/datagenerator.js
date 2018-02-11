@@ -1,16 +1,22 @@
 const faker = require('faker');
 const path = require('path');
-const createCsvWriter = require('csv-writer').createObjectCsvWriter
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').load();
+}
+const AWS = require('aws-sdk');
+AWS.config.update({ accessKeyId: process.env.aws_access_key_id, secretAccessKey: process.env.aws_secret_access_key, region: 'us-west-1'});
+const sqs = new AWS.SQS({ apiVersion: '2012-11-05' });
 
 //generates fake users for the users database
 async function fakeUserGenerator (number) {
-	for (var i = 0; i < 20; i++) {
+	for (var i = 0; i < 10; i++) {
 		let fileName = 'users' + i;
-		let id = i * 500000 + 1;
+		let id = i * 1000000 + 1;
 		const csvWriter = createCsvWriter({
 	    path: path.join(__dirname, `/databases/data/users/${fileName}.csv`),
 	    header: [
-	    		{id: 'id', title: 'id'},
+	    		// {id: 'id', title: 'id'},
 	        {id: 'email', title: 'email'},
 	        {id: 'password', title: 'password'},
 	        {id: 'geolocation', title: 'geolocation'}
@@ -20,12 +26,13 @@ async function fakeUserGenerator (number) {
 		let records = [];
 
 		for (var j = 1; j <= number; j++) {
-			const email = faker.internet.email();
+			const email = faker.internet.email() + id;
 			const password = faker.internet.password();
 			const lat = faker.address.latitude();
 			const lng = faker.address.longitude();
 			const geolocation = JSON.stringify({lat: lat, lng: lng});
-			const user = {id, email, password, geolocation};
+			// const geolocation = `{lat: ${lat}, lng: ${lng}}`;
+			const user = {email, password, geolocation};
 			records[j] = user;
 			id++;
 		}
@@ -102,17 +109,50 @@ async function fakeSessionsGenerator (number) {
 	}
 }
 
+let currentDate = new Date();
+let userSessionParams = {
+	DelaySeconds: 1,
+	MessageBody: 'User Session',
+	QueueUrl: 'https://sqs.us-west-1.amazonaws.com/567607828756/test_user_sessions_standard_queue',
+	MessageAttributes: {
+		user_id: {
+			DataType: 'Number',
+			StringValue: Math.floor(Math.random() * 10000000).toString()
+		},
+		content_id: {
+			DataType: 'Number',
+			StringValue: Math.floor(Math.random() * 10000000).toString()
+		},
+		viewed_minutes:{
+			DataType: 'Number',
+			StringValue: precisionRound(Math.random() * 180, 2).toString()
+		},
+		date: {
+			DataType: 'String',
+			StringValue: `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`
+		}
+	}
+}
+sqs.sendMessage(userSessionParams, (err, data) => {
+	if (err) {
+		console.error('ERROR', err, err.stack);
+	} else {
+		console.log('data sent');
+		console.log(data);
+	}
+});
+
 //Commented out fake data generators until they need to be used again. IF they need to be.
 try {
-	fakeUserGenerator(500000)
-		.then(() => {
-			console.log('Users generated');
-		});
+	// fakeUserGenerator(1000000)
+	// 	.then(() => {
+	// 		console.log('Users generated');
+	// 	});
 
-	fakeSessionsGenerator(1000000)
-		.then(() => {
-			console.log('Sessions generated');
-		});
+	// fakeSessionsGenerator(1000000)
+	// 	.then(() => {
+	// 		console.log('Sessions generated');
+	// 	});
 } catch(err) {
 	console.error('ERROR:', err);
 }
