@@ -8,7 +8,8 @@ const app = express();
 
 app.use(bodyParser.json())
 
-var client = new cassandra.Client({ contactPoints : ['127.0.0.1'] });
+let cassandraIP = process.env.CASSANDRA_IP || '127.0.0.1';
+var client = new cassandra.Client({ contactPoints : [cassandraIP] });
 client.connect(function(err, result) {
   console.log('cassandra connected..');
 });
@@ -41,13 +42,15 @@ app.patch('/endsession', (req, res) => {
       res.status(404).send({ msg: err });
     } else {
       res.status(201).send('Session Ended Successfully');
-      // HERE I SHOULD ADD THE ENDED SESSION TO A SQS QUEUE SO JIMMY's SERVICE READS IT AND GETS THE DATA
+      // HERE I SHOULD ADD THE ENDED SESSION TO A SQS QUEUE SO JUSTIN's SERVICE READS IT AND GETS THE DATA
     }
   });
 });
 
+let port = process.env.PORT || 2410;
+
 if (!module.parent) {
-  app.listen(3000, () => console.log('Example app listening on port 3000!'));
+  app.listen(port, () => console.log('Example app listening on port ' + port));
 }
 
 module.exports = app;
