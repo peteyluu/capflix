@@ -32,8 +32,8 @@ let selectUserByEmail = (email, callback) => {
 		if (err) {
 			callback(err.stack, null);
 		} else {
-			console.log('RESPONSE:' , res);
-			callback(null, res.rows);
+			console.log('RESPONSE:' , res.rows[0]);
+			callback(null, res.rows[0]);
 		}
 	})
 }

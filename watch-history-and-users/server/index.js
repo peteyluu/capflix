@@ -18,7 +18,7 @@ app.get('/login',(req, res) => {
 			console.error('ERROR:', err);
 		} else {
 			console.log('data:', data);
-			res.send(200, data[0]);
+			res.send(200, data);
 		}
 	})
 });

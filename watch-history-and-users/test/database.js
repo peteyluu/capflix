@@ -14,5 +14,23 @@ describe('Database', () => {
 				done();
 			})
 		})
+
+		it('should return userId for registered emails', (done) => {
+			postgres.selectUserByEmail('Anika_Beahan@hotmail.com8000013', (err, data) => {
+				expect(err).to.equal(null);
+				expect(data.password).to.equal(undefined);
+				expect(data).to.be.a('object');
+				expect(data.id).to.be.a('number');
+				expect(data.id).to.equal(8000013);
+				done();
+			})
+		}) 
+
+		it ('should return undefined for unregistred emails', (done) => {
+			postgres.selectUserByEmail('alksdfjaldfksj@gmail.com', (err, data) => {
+				expect(data).to.equal(undefined);
+				done();
+			})
+		})
 	})
 })
