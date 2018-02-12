@@ -35,4 +35,4 @@ app.use(bodyParser.json());
 app.use(search);
 app.listen(PORT, () => console.log(`capflix is listening on port ${PORT}`));
 
-// module.exports = app;
+module.exports = app;
