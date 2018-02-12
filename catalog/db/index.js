@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
-
-mongoose.connect('mongodb://localhost/fetcher');
+var mongodb = 'mongodb://127.0.0.1/capflix'
+mongoose.connect(mongodb);
 
 var db = mongoose.connection;
 
@@ -9,7 +9,7 @@ db.on('error', function() {
 });
 
 db.once('open', function() {
-  console.log('mongoose connected successfully');
+  console.log(`mongoose connected successfully to ${mongodb}`);
 });
 
 var trailer = mongoose.Schema({
@@ -58,46 +58,42 @@ var tvSchema = mongoose.Schema({
   episodes: [episode]
 })
 
-var tvContent = mongoose.model('tvContent', tvSchema);
-var movieContent = mongoose.model('movieContent', movieSchema);
+var tvContent = mongoose.model('tvContent', tvSchema, 'tvContent');
+var movieContent = mongoose.model('movieContent', movieSchema, 'movieContent');
 
-// let fetch = (name) => {
-//   return WaterMe.find({name: name}).exec();
-// };
-//
-// let save = (name, weight, wakeTime, sleepTime, amountPerDay, amountSoFar, bottles) => {
-//   let info = new WaterMe({
-//     name: name,
-//     weight: weight,
-//     wakeTime: wakeTime,
-//     sleepTime: sleepTime,
-//     amountPerDay: amountPerDay,
-//     amountSoFar: amountSoFar,
-//     bottles: bottles
+let tvFetch = (id) => {
+  return tvContent.find({id: id}).exec();
+};
+
+let movieFetch = (id) => {
+  return movieContent.find({id: id}).exec()
+}
+
+let tvAdd = (id) => {
+  
+}
+// let testSave = () => {
+//   let info = new tvContent({
+//     id: 'TVTEST',
+//     director: 'TEST',
+//     actors: ['TEST','TESTER'],
+//     genres: ['TESTG'],
+//     category: 'TESTC',
+//     mpRating: 'TEST',
+//     airYear: 2015,
+//     capflixOriginal: true,
+//     trailers: [{manifestFileId: 'TEST', thumbnail: 'TEST'}],
+//     content: {
+//       description: 'DESC',
+//       length: 'LENGTH',
+//       thumbnail: 'THUMBNAIL',
+//       manifestFileId: 'MANI ID'
+//     }
 //   });
 //   info.save();
 // }
-//
-// let update = (amount) => {
-//   WaterMe.findOneAndUpdate({name: 'Justin'}, {$inc: { amountSoFar: amount }}, {new: true}, function(err, doc) {
-//     if(err) {
-//       console.log('Error');
-//     }
-//   })
-// }
-//
-// let newBottle = (bottle) => {
-//   let bottleAmount = parseInt(bottle);
-//   WaterMe.findOneAndUpdate({name: 'Justin'}, {$addToSet: { bottles: bottleAmount}}, {new: true}, function(err, doc) {
-//     if(err) {
-//       console.log('Error');
-//     }
-//   })
-// }
-//
-// module.exports.save = save;
-// module.exports.fetch = fetch;
-// module.exports.update = update;
-// module.exports.newBottle = newBottle;
-// // sample data
-// save('Justin', 200, 7, 23, 128, 0, [27]);
+
+
+// testSave();
+module.exports.tvFetch = tvFetch;
+module.exports.movieFetch = movieFetch;
