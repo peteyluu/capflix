@@ -20,13 +20,12 @@ if (cluster.isMaster) {
   });
 
   cluster.on('exit', (worker, code, signal) => {
-    console.log(`Worker ${orker.process.pid} died with code: ${code}, and signal: ${signal}`);
+    console.log(`Worker ${worker.process.pid} died with code: ${code}, and signal: ${signal}`);
     console.log('Starting a new worker');
     cluster.fork();
   });
 } else {
   const app = express();
-  app.all('/*', (req, res) => {res.send(`process ${process.pid} says hello!`).end(); });
 
   app.use(bodyParser.json());
   // app.use(bodyParser.urlencoded({extended: true}));
@@ -34,11 +33,23 @@ if (cluster.isMaster) {
   app.get('/content/sb/:id', (req, res) => {
     if (req.params.id.slice(0,3) === 'MOV') {
       db.movieFetch(req.params.id)
-        .then(info => res.send(info));
+        .then((info) => {
+          if (info.length !== 0) {
+            res.send(info[0]);
+          } else {
+            res.status(404).send('Not content');
+          }
+        });
     }
     if (req.params.id.slice(0,2) === 'TV') {
       db.tvFetch(req.params.id)
-        .then(info => res.send(info));
+        .then((info) => {
+          if (info.length !== 0) {
+            res.send(info[0]);
+          } else {
+            res.status(404).send('Not content');
+          }
+        });
     }
   });
 
@@ -46,10 +57,22 @@ if (cluster.isMaster) {
   app.get('/content/wh/:id', (req, res) => {
     if (req.params.id.slice(0,3) === 'MOV') {
       db.movieFetch(req.params.id)
-        .then(info => res.send([info[0].category, info[0].capflixOriginal]));
+        .then((info) => {
+          if (info.length !== 0) {
+            res.send({ category: info[0].category, capflixOriginal: info[0].capflixOriginal });
+          } else {
+            res.status(404).send('Not content');
+          }
+        });
     }
     if (req.params.id.slice(0,2) === 'TV') {
-      db.tvFetch(req.params.id).then(info => res.send([info[0].category, info[0].capflixOriginal]));
+      db.tvFetch(req.params.id).then((info) => {
+        if (info.length !== 0) {
+          res.send({ category: info[0].category, capflixOriginal: info[0].capflixOriginal });
+        } else {
+          res.status(404).send('Not content');
+        }
+      });
     }
   });
 
@@ -57,6 +80,7 @@ if (cluster.isMaster) {
     console.log(`Process ${process.pid} is listening to all incoming requests`);
   });
 }
+
 
 // POST /update/new
 

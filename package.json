@@ -4,7 +4,8 @@
   "description": "The catalog service",
   "main": ".eslintrc.js",
   "scripts": {
-    "start": "node server/index.js"
+    "start": "node server/index.js",
+    "test": "mocha ./catalog/spec/serverSpec.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,8 @@
   "homepage": "https://github.com/stonecapdesign/Capflix#readme",
   "dependencies": {
     "body-parser": "^1.17.2",
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
     "csv-writer": "0.0.3",
     "express": "^4.15.0",
     "faker": "^4.1.0",
