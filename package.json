@@ -4,7 +4,7 @@
   "description": "The project description",
   "main": "index.js",
   "scripts": {
-    "test": "INDEX='test' TYPE='movie' mocha ./test/elasticsearch.js && mocha ./test/redis.js",
+    "test": "ELASTIC_INDEX='test' ELASTIC_TYPE='movie' mocha ./test/elasticsearch.js && mocha ./test/redis.js",
     "test1": "mocha ./test/server.js",
     "start": "node index.js",
     "server-dev": "nodemon index.js"
@@ -36,6 +36,7 @@
     "siege": "^0.2.0"
   },
   "dependencies": {
+    "aws-sdk": "^2.192.0",
     "body-parser": "^1.18.2",
     "elasticsearch": "^14.0.0",
     "express": "^4.16.2",

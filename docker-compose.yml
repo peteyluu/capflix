@@ -1,6 +1,22 @@
-elasticsearch:
-  image: elasticsearch
-  volumes:
-    - esdata1:/usr/share/elasticsearch/data
-  ports:
-    - '9200:9200'
+version: '2'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    depends_on:
+      - elasticsearch
+      - redis
+    environment:
+      ELASTICSEARCH_HOST: elasticsearch
+      ELASTIC_INDEX: summary
+      ELASTIC_TYPE: movie
+      REDIS_HOST: redis
+    ports:
+      - "3000:3000"
+  redis:
+    image: "redis:alpine"  
+  elasticsearch:
+    image: elasticsearch
+    ports:
+      - "9200:9200"

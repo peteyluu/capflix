@@ -2,12 +2,11 @@ require('newrelic');
 const express = require('express');
 const bodyParser = require('body-parser');
 const search = require('./server/search');
-const cluster = require('express-cluster');
-const clusting = require('cluster');
+// const cluster = require('express-cluster');
+// const clusting = require('cluster');
 
 // if (clusting.isMaster) {
 //   const cpuCount = require('os').cpus().length;
-
 //   for (let i = 0; i < cpuCount; i += 1) {
 //     clusting.fork();
 //   }

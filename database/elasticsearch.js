@@ -1,7 +1,7 @@
 const elasticsearch = require('elasticsearch');
 
 const client = new elasticsearch.Client({
-  host: process.env.HOST || 'localhost:9200',
+  host: 'elasticsearch:9200' || 'localhost:9200',
   // host: 'http://192.168.99.100:9200',
   // log: 'trace',
 });
@@ -84,14 +84,14 @@ const client = new elasticsearch.Client({
 // get documents from summary index based on query
 const searchSummary = query =>
   client.search({
-    index: process.env.INDEX || 'summary',
+    index: process.env.ELASTIC_INDEX || 'summary',
     q: query,
   });
 
 // get documents from summary index on [categories]
 const fetchCategories = categories =>
   client.search({
-    index: process.env.INDEX || 'summary',
+    index: process.env.ELASTIC_INDEX || 'summary',
     body: {
       query: {
         terms: {
@@ -104,8 +104,8 @@ const fetchCategories = categories =>
 // get document from summary index on id
 const getSummaryById = summaryId =>
   client.get({
-    index: process.env.INDEX || 'summary',
-    type: process.env.TYPE || 'movie',
+    index: process.env.ELASTIC_INDEX || 'summary',
+    type: process.env.ELASTIC_TYPE || 'movie',
     id: summaryId,
   });
 

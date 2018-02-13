@@ -1,15 +1,15 @@
 const redis = require('redis');
 const { promisify } = require('util');
 
-const client = redis.createClient();
+const client = redis.createClient(6379, process.env.REDIS_HOST || 'localhost');
 
-// client.on('ready', () => {
-//   console.log('Redis is ready');
-// });
+client.on('ready', () => {
+  console.log('Redis is ready');
+});
 
-// client.on('error', (err) => {
-//   console.log(`Error ${err}`);
-// });
+client.on('error', (err) => {
+  console.log(`Error ${err}`);
+});
 const getAsync = promisify(client.get).bind(client);
 const setAsync = promisify(client.set).bind(client);
 const existAsync = promisify(client.exists).bind(client);
