@@ -1,28 +1,28 @@
 config:
-  target: 'http://127.0.0.1:3000'
+  target: 'http://ec2-13-57-179-177.us-west-1.compute.amazonaws.com:1337'
   phases:
     - duration: 60
       arrivalRate: 10
-      rampTo: 50
-      name: "Warm up the application"
-    - duration: 120
-      arrivalRate: 30
       name: "Sustained max load"
 scenarios:
-  - name: "Get Chunk Number 4"
-    flow:
-    - get:
-        url: "/chunk/somecontent?res=720&chunkNumber=4"
-
-  - name: "Get Chunk Number 5"
-    flow:
-    - get:
-        url: "/chunk/somecontent?res=720&chunkNumber=5"
-
-  - name: "Start Sessions"
+  - name: "Get Chunk Number 23 720p"
     flow:
     - post:
         url: "/startsession"
         json: 
-          content_id: "1337"
-          user_id: "2410"
+          content_id: "123"
+          user_id: "456"
+    - get:
+        url: "/chunk/somecontent?res=720&chunkNumber=23"
+    count: 100
+
+  - name: "Get Chunk Number 23 240p"
+    flow:
+    - post:
+        url: "/startsession"
+        json: 
+          content_id: "123"
+          user_id: "456"
+    - get:
+        url: "/chunk/somecontent?res=240&chunkNumber=23"
+    count: 100
