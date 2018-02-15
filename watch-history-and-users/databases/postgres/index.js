@@ -13,15 +13,7 @@ let selectUserById = (id, callback) => {
 	  if (err) {
 	  	callback(err.stack, null);
 	  } else {
-	  	// if (res.rows.length === 0) {
-	  	// 	client.query(text, ['Burgers'], (err, resTwo)=>{
-	  	// 		if(!err) {
-	  	// 			callback(null, resTwo.rows)
-	  	// 		}
-	  	// 	})
-	  	// } else {
 	  		callback(null, res.rows);	
-	  	//}
 	  }
     })
 }
@@ -32,7 +24,6 @@ let selectUserByEmail = (email, callback) => {
 		if (err) {
 			callback(err.stack, null);
 		} else {
-			console.log('RESPONSE:' , res.rows[0]);
 			callback(null, res.rows[0]);
 		}
 	})
