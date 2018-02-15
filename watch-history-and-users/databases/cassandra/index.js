@@ -18,21 +18,24 @@ var selectUserSession = (callback) => {
 	})	
 }
 
-// var addUserSession = (callback) => {
-// 	var addUserSessionString = "INSERT INTO user_sessions.users_sessions \
-// 															(id,user_id,content_id,category,original_content, \
-// 															viewed_minutes,geolocation,date) VALUES \
-// 															(?, ?, ?, ?, ?, ?, ?, ?)" 
-// 	client.execute(addUserSessionString, [10000001, 111, 111, 'comedies', false, 20.22, {'lat':-48.1225, 'lng':-178.9008}, '2018-01-01'], (err, result) => {
-// 		if (err) {
-// 			callback(err, null);
-// 		} else {
-// 			callback(null, result);
-// 		}
-// 	})
-// }
+var addUserSession = (sessionData, callback) => {
+	var addData = [sessionData.session_id, sessionData.user_id, sessionData.content_id, sessionData.category, sessionData.original_content, sessionData.viewed_minutes, sessionData.geolocation, sessionData.date];
+	var addUserSessionString = "INSERT INTO user_sessions.user_sessions \
+															(id,user_id,content_id,category,original_content, \
+															viewed_minutes,geolocation,date) VALUES \
+															(?, ?, ?, ?, ?, ?, ?, ?);" 
+
+	client.execute(addUserSessionString, addData, {prepare: true}, (err, result) => {
+		if (err) {
+			callback(err, null);
+		} else {
+			callback(null, result);
+		}
+	})
+}
 
 
 module.exports = {
-	selectUserSession
+	selectUserSession,
+	addUserSession
 }
