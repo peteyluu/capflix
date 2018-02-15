@@ -49,9 +49,9 @@ const precisionRound =(number, precision) => {
 	return Math.round(number * factor) / factor;
 }
 //generates fake sessions for the usersSession database
+const categories = ['Action & Adventure', 'Comedies', 'Thrillers', 'Violent TV Shows', 'Animation', 'Documentaries', 'Reality TV', 'Critically-acclaimed', 'Horror', 'TV Comedies', 'Sci-fi', 'Dramas'];
+const trueContent = [false, true];
 async function fakeSessionsGenerator (number) {
-	const categories = ['Action & Adventure', 'Comedies', 'Thrillers', 'Violent TV Shows', 'Animation', 'Documentaries', 'Reality TV', 'Critically-acclaimed', 'Horror', 'TV Comedies', 'Sci-fi', 'Dramas'];
-	const trueContent = [false, true];
 
 	for (var i = 8; i < 10; i++) {
 		let fileName = 'user_sessions' + i;
@@ -115,6 +115,10 @@ let userSessionParams = {
 	MessageBody: 'User Session',
 	QueueUrl: 'https://sqs.us-west-1.amazonaws.com/567607828756/test_user_sessions_standard_queue',
 	MessageAttributes: {
+		session_id: {
+			DataType: 'String',
+			StringValue: `lkj${Math.floor(Math.random() * 100000)}asdfoi${Math.floor(Math.random() * 100000)}`
+		},
 		user_id: {
 			DataType: 'Number',
 			StringValue: Math.floor(Math.random() * 10000000).toString()
@@ -130,6 +134,18 @@ let userSessionParams = {
 		date: {
 			DataType: 'String',
 			StringValue: `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`
+		},
+		category: {
+			DataType: 'String',
+			StringValue: `${categories[Math.floor(Math.random() * categories.length)]}`
+		},
+		original_content: {
+			DataType: 'String',
+			StringValue: `${trueContent[Math.floor(Math.random() * trueContent.length)]}`
+		},
+		geolocation: {
+			DataType: 'String',
+			StringValue: JSON.stringify({lat:faker.address.latitude(), lng:faker.address.longitude()})
 		}
 	}
 }
