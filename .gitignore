@@ -38,3 +38,5 @@ bower_components/
 
 data_scripts
 package-lock.json
+newrelic.js
+newrelic_agent.log
