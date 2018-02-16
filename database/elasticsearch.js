@@ -1,18 +1,8 @@
 const elasticsearch = require('elasticsearch');
 
 const client = new elasticsearch.Client({
-  // host: '54.153.100.216:9200' || 'localhost:9200',
   host: process.env.ELASTICSEARCH_HOST || 'localhost:9200',
 });
-
-// create index
-// const createIndex = indexName => client.indices.create({ index: indexName });
-
-// delete index
-// const deleteIndex = indexName => client.indices.delete({ index: indexName });
-
-// check if the index exists
-// const indexExists = indexName => client.indices.exists({ index: indexName });
 
 // get documents from summary index based on query
 const searchSummary = query =>
