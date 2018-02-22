@@ -1,10 +1,6 @@
-# Project Name
+# Capflix
 
-The project description
-
-## Roadmap
-
-View the project roadmap [here](LINK_TO_DOC)
+Streaming service
 
 ## Contributing
 
@@ -14,30 +10,31 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 
 1. [Usage](#Usage)
 1. [Requirements](#requirements)
-1. [Development](#development)
-    1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
 
 ## Usage
 
+### Using Docker
 
-Using Docker
+```
+docker-compose build
+docker-compose up
+```
 
-> docker-compose build
-> docker-compose up
+### Without Docker
 
-Without Docker
-
-> npm install
-> npm start
+```
+npm install
+npm start
+```
 
 ## Requirements
 
-- Node 6.9.x
-- Redis 3.2.x
-- Postgresql 9.6.x
-- etc
+- Node 9.2
+- NPM 5.5
+- ElasticSearch
+- Redis
 
 ## Other Information
 
-Initial files from Hack Reactor
+* [App Plan](https://docs.google.com/document/d/1kNHYAQcxQyO6LW2cTx9HEsXUTMHDzSGDwdb-_ZO0f8o/edit#heading=h.v30r89j6mgcz)
+
