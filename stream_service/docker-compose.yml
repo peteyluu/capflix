@@ -1,0 +1,39 @@
+version: "3"
+services:
+  web:
+    image: felicatania/capflixstream:latest
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "1337:2410"
+    networks:
+      - webnet
+    environment:
+      CASSANDRA_IP: cassandra
+
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - webnet
+
+  cassandra:
+    image: cassandra:latest
+    volumes:
+      - /home/docker/db-cass:/var/lib/cassandra
+      - /home/docker/db-cass/datos:/datos
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - webnet
+networks:
+  webnet:

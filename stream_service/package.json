@@ -1,0 +1,28 @@
+{
+  "name": "capflix",
+  "version": "1.0.0",
+  "description": "The project description",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fcatania/capflix.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cassandra-driver": "^3.3.0",
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "csv-writer": "0.0.3",
+    "elapsed-time": "0.0.1",
+    "express": "^4.16.2",
+    "faker": "^4.1.0",
+    "newrelic": "^2.7.0",
+    "siege": "^0.2.0",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha stream_service/specs/server-specs.js"
+  }
+}
