@@ -1,0 +1,4 @@
+node_modules/
+newrelic.js
+databases/data/
+.env

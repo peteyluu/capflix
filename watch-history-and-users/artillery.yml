@@ -1,0 +1,29 @@
+config:
+  target: "http://localhost:3000"
+  processor: "./artilleryJS.js"
+  phases:
+    - duration: 1
+      arrivalRate: 20
+scenarios:
+  - name: "User logins"
+    flow:
+      - loop:
+        - get:
+            url: "/login"
+            json:
+              email: "Anika_Beahan@hotmail.com8000013"
+              password: "UFft6aZS2OdAK78"
+        count: 50
+  - name: "User Signups"
+    flow:
+      - loop:
+        # - function: "generateRandomUser"
+        - post:
+            url: "/signup"
+            beforeRequest: "generateRandomUser"
+            json:
+              email: "{{ email }}"
+              password: "{{ password }}"
+              geolocation: {"lat": 0.0000, "lng": 0.0000}
+        - log: "Sent a request to /signup with {{email}} and {{password}}"
+        count: 20
