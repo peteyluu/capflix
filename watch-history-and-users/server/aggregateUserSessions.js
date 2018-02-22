@@ -42,13 +42,13 @@ let aggregatePartition = (category, isOriginal) => {
 		if (err) {
 			console.error('ERROR:', err);
 		} else {
-			console.log('aggregate:', JSON.parse(response.rows[0]['system.sum(viewed_minutes)']));
 			let aggregate = JSON.parse(response.rows[0]['system.sum(viewed_minutes)']);
 			insertAggregate(category, isOriginal, '2016-12', aggregate);
 		}
 	})
 }
 
+//Inserts aggregates for first day of new months and updates otherwise
 let insertAggregate = (category, isOriginal, date, aggregate) => {
 	const text = `INSERT INTO monthly_viewed_minutes (date, category, original_content, viewed_minutes)\
 								VALUES ('${date}', '${category}', ${isOriginal}, ${aggregate}) ON CONFLICT (date, category, original_content) \
@@ -62,6 +62,7 @@ let insertAggregate = (category, isOriginal, date, aggregate) => {
 	})
 }
 
+//sums the viewed_minutes base on unique partitions
 let aggregateAllData = () => {
 	getCategories((categories) => {
 		for (var i = 0; i < categories.rows.length; i++) {
