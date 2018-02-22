@@ -20,7 +20,16 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 
 ## Usage
 
-> Some usage instructions
+
+Using Docker
+
+> docker-compose build
+> docker-compose up
+
+Without Docker
+
+> npm install
+> npm start
 
 ## Requirements
 
