@@ -36,6 +36,12 @@ dist/
 node_modules/
 bower_components/
 
+data_scripts
+package-lock.json
+newrelic.js
+newrelic_agent.log
+
 # Misc
 .dockerignore
 newrelic.js
+
