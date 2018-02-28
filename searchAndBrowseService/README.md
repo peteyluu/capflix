@@ -1,6 +1,6 @@
 # Capflix
 
-Streaming service
+Netflix back-end simulation of a Search and Browse service-oriented-architecture
 
 ## Contributing
 
